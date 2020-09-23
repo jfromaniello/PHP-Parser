@@ -88,13 +88,13 @@ class String_ extends Scalar
 
         return preg_replace_callback(
             '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3}' . $extra . ')~',
-            function($matches) {
+            function ($matches) {
                 $str = $matches[1];
 
                 if (isset(self::$replacements[$str])) {
                     return self::$replacements[$str];
                 } elseif ('x' === $str[0] || 'X' === $str[0]) {
-                    return chr(hexdec($str));
+                    return chr(hexdec(substr($str, 1)));
                 } elseif ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
                 } else {
